@@ -17,11 +17,19 @@ export default function RequestCard(props) {
     }
 
     function getRequestForm(formParams) {
-        let formData = new FormData();
-        for (let formKey of props.body ?? []) {
-            formData.append(formKey, formParams[formKey] ?? "");
+        if (props.json) {
+            let formData = {};
+            for (let formKey of props.body ?? []) {
+                formData[formKey] = formParams[formKey] ?? "";
+            }
+            return JSON.stringify(formData);
+        } else {
+            let formData = new FormData();
+            for (let formKey of props.body ?? []) {
+                formData.append(formKey, formParams[formKey] ?? "");
+            }
+            return formData;
         }
-        return formData;
     }
 
     function updateQueryParamValue(event) {
@@ -94,7 +102,7 @@ export default function RequestCard(props) {
             </div>}
             {props.body && <div className='properties'>
                 <div className='title'>
-                    Form Params:
+                    {!props.json ? "Form" : "JSON"} Params:
                 </div>
                 <div className='list'>
                     {
@@ -110,7 +118,7 @@ export default function RequestCard(props) {
             {response && response.status && <div className={`output ${!props.query && !props.body ? "no-border" : ""}`}>
                 <div className='title'>
                     <span>Result:</span>
-                    <span className={`status ${response && response.status == 200 ? "success" : ""}`}>Статус: {response.status}</span>
+                    <span className={`status ${response && parseInt(response.status / 100) == 2 ? "success" : ""}`}>Статус: {response.status}</span>
                 </div>
                 {response.value != ""
                     ? <div className='response'>

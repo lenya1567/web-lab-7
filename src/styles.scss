@@ -13,7 +13,7 @@ body,
     height: 100%;
     display: grid;
     grid-template-columns: calc(50% - 8px) calc(50% - 8px);
-    grid-template-rows: calc(50% - 8px) calc(50% - 8px);
+    grid-template-rows: calc(33% - 8px) calc(33% - 8px) calc(33% - 8px);
     gap: 16px;
     padding: 16px;
     max-height: 100%;
